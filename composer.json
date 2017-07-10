@@ -1,0 +1,20 @@
+{
+  "name": "majestixx/lib-bankaccount",
+  "description": "Lib-Bankaccount is a library for creating, transforming and validating german bank accounts",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "LibBankaccount\\": "src/"
+    },
+    "files": [
+      "src/configuration.php"
+    ]
+  },
+  "require": {
+        "globalcitizen/php-iban": "^2.5",
+        "malkusch/bav": "^1.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.2"
+  }
+}
