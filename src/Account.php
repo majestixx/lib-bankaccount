@@ -2,6 +2,7 @@
 namespace LibBankaccount;
 use malkusch\bav\BankNotFoundException;
 use malkusch\bav\BAV;
+use malkusch\bav\ConfigurationRegistry;
 use malkusch\bav\DataBackendException;
 use malkusch\bav\UndefinedAttributeAgencyException;
 
@@ -14,8 +15,11 @@ class Account {
 
   /**
    * Account constructor.
+   * @param Configuration $configuration
    */
-  public function __construct() {
+  public function __construct($configuration) {
+    ConfigurationRegistry::setConfiguration($configuration->getConfiguration());
+
     $this->accountNo = null;
     $this->blz = null;
     $this->iban = null;

@@ -9,19 +9,24 @@ use LibBankaccount\Account;
  */
 class AccountTest extends PHPUnit_Framework_TestCase
 {
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
+  private $configuration;
+
+  /**
+   * Tears down the fixture, for example, closes a network connection.
+   * This method is called after a test is executed.
+   */
+  protected function setUp()
+  {
+    $this->configuration = new \LibBankaccount\Configuration("localhost", "root", "", "bankaccount");
+
+    parent::setUp();
+  }
 
     public function testGetAccountNoFromIban()
     {
       $iban = "DExx 1009 0044 0532 0130 18";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setIban($iban);
 
       $this->assertEquals("532013018",$account->getAccountNo());
@@ -31,7 +36,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $iban = "DExx 1009 0044 0532 0130 18";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setIban($iban);
 
       $this->assertEquals("10090044", $account->getBlz());
@@ -41,7 +46,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $bic = "HALLDE2HXXX";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setBic($bic);
 
       $this->assertEquals("25060180",$account->getBlz());
@@ -51,7 +56,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $bic = "HALLDE2H";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setBic($bic);
 
       $this->assertEquals("25060180",$account->getBlz());
@@ -62,7 +67,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
       $accountNo = "402532800";
       $blz = "49092650";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setAccountNo($accountNo);
       $account->setBlz($blz);
 
@@ -74,7 +79,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
       $accountNo = "402 532 800";
       $blz = "490 926 50";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setAccountNo($accountNo);
       $account->setBlz($blz);
 
@@ -86,7 +91,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
       $accountNo = "402532800";
       $bic = "GENODEM1LUB";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setAccountNo($accountNo);
       $account->setBic($bic);
 
@@ -98,7 +103,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
       $accountNo = "4479925203";
       $bic = "MLPBDE61";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setAccountNo($accountNo);
       $account->setBic($bic);
 
@@ -109,7 +114,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $blz = "67230000";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setBlz($blz);
 
       $this->assertEquals($account->getBic(), "MLPBDE61XXX");
@@ -119,7 +124,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $blz = "672 300 00";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setBlz($blz);
 
       $this->assertEquals($account->getBic(), "MLPBDE61XXX");
@@ -129,7 +134,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $iban = "DE76 4909 2650 0402 5328 00";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setIban($iban);
 
       $this->assertEquals($account->getBic(), "GENODEM1LUB");
@@ -140,7 +145,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
       $blz = '49092650';
       $accountNo = '402532800';
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setAccountNo($accountNo);
       $account->setBlz($blz);
 
@@ -152,7 +157,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
       $blz = '67230000';
       $accountNo = '4479925288';
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setAccountNo($accountNo);
       $account->setBlz($blz);
 
@@ -163,7 +168,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $bic = "MLPBDE61XXX";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setBic($bic);
 
       $this->assertTrue($account->validateBIC());
@@ -173,7 +178,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $bic = "MLPBDE6XXXX";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setBic($bic);
 
       $this->assertFalse($account->validateBIC());
@@ -183,7 +188,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $blz = '67230000';
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setBlz($blz);
 
       $this->assertTrue($account->validateBlz());
@@ -193,7 +198,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $blz = '67231111';
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setBlz($blz);
 
       $this->assertFalse($account->validateBlz());
@@ -203,7 +208,7 @@ class AccountTest extends PHPUnit_Framework_TestCase
     {
       $iban = "DE76 4909 2650 0402 5328 00";
 
-      $account = new Account();
+      $account = new Account($this->configuration);
       $account->setIban($iban);
 
       $this->assertTrue($account->validateIban());
